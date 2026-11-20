@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080a14">
+<meta name="description" content="Smarty Kids — Лаборатория дробей. Неоновое интерактивное шоу: фигуры, музыка, частицы и маленькие математические открытия.">
+<title>Smarty Kids · Лаборатория дробей · Шоу</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%23080a14'/%3E%3Cpath d='M20 4L24 16L36 20L24 24L20 36L16 24L4 20L16 16Z' fill='%23c6ff72'/%3E%3C/svg%3E">
+<style>@property --accent{syntax:'<color>';inherits:true;initial-value:#c6ff72}
+:root{color-scheme:dark;--accent:#c6ff72;--pink:#f591df;--muted:#8f96b3;--ink:#f4f4ff;--bg:#080a14;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-synthesis:none;transition:--accent .6s}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--bg);font-size:14px;line-height:1.45}body:before{content:'';position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 4% 10%,#3b24572e,transparent 55%),radial-gradient(ellipse at 95% 85%,#183b4538,transparent 55%);z-index:-1}button,input{font:inherit}button{border:0;cursor:pointer;color:inherit;background:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}button:disabled{opacity:.28;cursor:default}button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:5px}button svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}h1,h2,p,figure{margin:0}[hidden]{display:none!important}.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+#show-canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:5}#app{width:100%;height:100dvh;display:flex;justify-content:center}#app:before{content:'';position:fixed;top:0;left:25%;right:25%;height:1px;background:linear-gradient(90deg,transparent,#958cc68a,transparent)}
+.show-frame{container-type:size;container-name:showframe;position:relative;width:100%;height:100%;max-width:1440px;display:grid;grid-template-rows:56px auto minmax(0,1fr) 26px;gap:14px;padding:12px 42px 8px}
+.show-header{display:flex;align-items:center;justify-content:space-between;gap:20px}.show-logo{display:flex;align-items:center;gap:10px;font-size:24px;letter-spacing:-1px;font-weight:800;white-space:nowrap}.show-logo>span:last-child{display:flex;gap:5px;align-items:baseline}.show-mark{width:38px;height:38px;display:grid;place-items:center;color:var(--accent)}.show-mark svg{width:38px;fill:var(--accent);filter:drop-shadow(0 0 10px color-mix(in srgb,var(--accent) 45%,transparent));stroke:none}.kids{color:var(--accent)}.show-tools{display:flex;gap:7px}.show-tools button{display:flex;align-items:center;justify-content:center;gap:7px;border:1px solid #ffffff12;border-radius:10px;padding:9px 11px;color:#a6abc2;font-size:11px;min-height:36px;transition:color .2s,background .2s,border-color .2s}.show-tools button:hover{color:#fff;background:#ffffff0a}.show-tools [aria-pressed=true]{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 24%,transparent);background:color-mix(in srgb,var(--accent) 5%,transparent)}
+.show-intro{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:0 0 8px}.show-eyebrow{display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:2.2px;color:#9d97b5;font-size:9px;font-weight:650;margin-bottom:7px}.show-eyebrow i{width:5px;height:5px;border-radius:50%;background:#f591df;box-shadow:0 0 14px #f591df}.show-intro h1{font-size:clamp(28px,4.5vw,64px);font-weight:760;letter-spacing:-3px;line-height:1.08}.show-intro h1 em{font-style:normal;color:var(--accent);text-shadow:0 0 45px color-mix(in srgb,var(--accent) 20%,transparent)}.show-subtitle{font-size:12px;color:#9398b5;margin-top:10px}.show-play{display:flex;align-items:center;gap:12px;flex-shrink:0;padding:12px 18px;color:#eae4ff;border:1px solid #9b77ec60;border-radius:14px;background:linear-gradient(120deg,#8e6be72b,#9a65e80a);box-shadow:0 0 25px #9455e512,inset 0 0 20px #b28afa09;transition:background .2s,box-shadow .2s}.show-play:hover{background:#7c4cd838;box-shadow:0 0 35px #a378ff30}.show-play>svg{width:22px;height:22px;fill:#d8c3ff;stroke:#d8c3ff}.show-play span{display:flex;flex-direction:column;align-items:start;gap:2px}.show-play b{font-size:12px;font-weight:600}.show-play small{font-size:10px;color:#aaa0c1}.is-playing .show-play{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.show-workbench{min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;position:relative;background:linear-gradient(145deg,#ffffff03,#ffffff01);border:1px solid #ffffff12;border-radius:26px;padding:0 25px;isolation:isolate}.show-workbench:before{content:'';position:absolute;left:12%;right:12%;top:-1px;height:1px;background:linear-gradient(90deg,transparent,#bca8e859,transparent);pointer-events:none}.show-toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid #ffffff0b}.tool-label{font-size:10px;letter-spacing:.4px;color:#8b91aa;white-space:nowrap}.lab-divisions{display:flex;align-items:center;gap:18px}.lab-divisions>div{display:flex;gap:5px}.lab-divisions button{display:grid;place-items:center;width:35px;height:34px;border-radius:9px;border:1px solid #ffffff0f;color:#a6abc2;background:#ffffff03;font-size:12px;transition:background .2s,color .2s,box-shadow .2s}.lab-divisions button:hover{background:#ffffff0c;border-color:#ffffff30}.lab-divisions [aria-pressed=true]{background:var(--accent);color:#11170a;border-color:var(--accent);box-shadow:0 0 20px color-mix(in srgb,var(--accent) 18%,transparent);font-weight:700}.lab-presets{display:flex;align-items:center;gap:10px}.lab-presets button{display:flex;align-items:center;justify-content:center;gap:6px;min-height:32px;font-size:17px;color:#c8c4d9}.lab-presets button span{font-size:10px;color:#8b91aa}.lab-presets button:hover,.lab-presets button:hover span{color:#fff}
+.show-main{min-height:0;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(260px,.8fr);gap:20px;max-width:1000px;width:100%;margin:auto;height:100%;padding:14px 0 10px}.lab-carousel{min-width:0;min-height:0;display:flex;flex-direction:column}.shape-heading{display:flex;align-items:center;justify-content:center;gap:12px;font-size:13px;color:#d8d8e9;min-height:22px}.shape-heading #lab-figure-position{font-size:10px;color:#5f6686;letter-spacing:1px}.shape-live{display:flex;align-items:center;gap:4px;font-size:7px;letter-spacing:1px;color:var(--accent);padding:3px 5px;border:1px solid color-mix(in srgb,var(--accent) 18%,transparent);border-radius:4px}.shape-live i{width:3px;height:3px;border-radius:50%;background:var(--accent)}
+.lab-carousel-stage{container-type:size;position:relative;display:flex;align-items:center;justify-content:center;flex:1;min-height:0;gap:14px;isolation:isolate}.stage-glow{position:absolute;width:min(80cqh,75%);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--accent) 14%,transparent),transparent 68%);filter:blur(20px);pointer-events:none;z-index:-1;transform:scale(1.4)}.orbit{position:absolute;border:1px solid color-mix(in srgb,var(--accent) 8%,transparent);border-radius:50%;width:min(96cqh,80%);aspect-ratio:1;pointer-events:none;z-index:-1;transform:rotate(-24deg) scaleY(.75)}.orbit-two{transform:rotate(45deg) scaleY(.86);border-style:dashed;opacity:.45}.orbit-one:after{content:'';position:absolute;top:13%;left:12%;width:4px;height:4px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent)}.stage-star{position:absolute;color:var(--accent);pointer-events:none;opacity:.65;font-size:23px;text-shadow:0 0 14px var(--accent)}.star-one{top:17%;right:14%;animation:twinkle 5s ease-in-out infinite}.star-two{bottom:12%;left:18%;font-size:16px;opacity:.35;animation:twinkle 6s ease-in-out infinite reverse}@keyframes twinkle{50%{opacity:.15;transform:rotate(30deg) scale(.7)}}
+.lab-model{margin:0;min-width:0;flex-shrink:0;position:relative;width:min(370px,100cqh,calc(100cqw - 100px));height:100%}.lab-model.lab-strip-model{width:calc(100cqw - 100px);max-width:400px}.lab-model.lab-multiple-wholes{width:min(370px,calc(100cqh * var(--lab-grid-aspect)),calc(100cqw - 100px))}.lab-model #lab-active-model{height:100%;width:100%;position:relative;display:flex;align-items:center;justify-content:center}.lab-figure{display:block;position:absolute;inset:0;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 18px color-mix(in srgb,var(--lab-color) 18%,transparent))}.lab-model #lab-active-model.lab-multi{display:grid;grid-template-columns:repeat(var(--lab-cols),minmax(0,1fr));grid-template-rows:repeat(var(--lab-rows),minmax(0,1fr));gap:10px}.lab-whole{width:100%;height:100%;min-height:0;min-width:0;position:relative}.lab-unit-label{display:none}.lab-mint{--lab-color:#c6ff72;--lab-dim:#253228}.lab-lilac{--lab-color:#bd9bff;--lab-dim:#2e2741}.lab-coral{--lab-color:#ff9b77;--lab-dim:#3a2a2b}.lab-sky{--lab-color:#73d8ff;--lab-dim:#1c3144}.lab-gold{--lab-color:#ffd575;--lab-dim:#3c3328}
+.lab-hit{fill:var(--lab-dim);stroke:none;cursor:pointer;outline:none;transform-box:fill-box;transform-origin:center;transition:fill .2s,filter .2s,transform .6s cubic-bezier(.16,1,.3,1);touch-action:manipulation}.lab-hit.is-on{fill:var(--paint,var(--lab-color))}.lab-hit .lab-group-bound{fill:var(--lab-dim);opacity:.4}.lab-hit .lab-bead{fill:var(--lab-dim);stroke:none}.lab-hit.is-on .lab-bead{fill:var(--lab-color)}.lab-hit.is-on .lab-group-bound{fill:var(--lab-color);opacity:.09}.lab-hit:focus-visible{outline:none;stroke:#fff;stroke-width:1.5;vector-effect:non-scaling-stroke;filter:brightness(1.2)}@media(hover:hover){.lab-hit:hover{filter:brightness(1.25)}}.lab-hit:active{filter:brightness(1.4)}.lab-outline{fill:none;stroke:var(--lab-color);stroke-opacity:.6;stroke-width:.8;vector-effect:non-scaling-stroke;pointer-events:none;transition:opacity .4s}.lab-divider{fill:none;stroke:#0c1620;stroke-width:1.1;vector-effect:non-scaling-stroke;pointer-events:none}.lab-model.is-exploded .lab-outline,.lab-model.is-exploded .lab-divider{opacity:0}.lab-subcut{fill:none;stroke:#102a3e;stroke-width:2;stroke-dasharray:5 4;opacity:0;pointer-events:none;transition:opacity .4s}.is-refined .lab-subcut{opacity:1}
+.lab-arrow{width:30px;height:40px;display:grid;place-items:center;flex-shrink:0;color:#727b99;z-index:2;transition:color .2s,filter .2s}.lab-arrow:hover{color:var(--accent);filter:drop-shadow(0 0 6px var(--accent))}.lab-arrow svg{width:24px;height:24px}.show-ghost{position:absolute;pointer-events:none;z-index:3;display:flex;align-items:center;justify-content:center}.show-ghost .lab-figure{position:absolute}.show-ghost .lab-hit.is-on{fill:var(--lab-color)}.show-ghost .lab-whole{display:none}#show-badge{position:absolute;bottom:8%;left:50%;transform:translateX(-50%);padding:7px 14px;border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);background:#0b1025e8;backdrop-filter:blur(12px);color:var(--accent);font-size:11px;border-radius:30px;white-space:nowrap;opacity:0;pointer-events:none;z-index:6}
+.show-shapes{display:flex;justify-content:center;align-items:center;gap:6px;min-height:40px;padding-top:2px}.show-shapes button{color:#72788e;border:1px solid transparent;display:grid;place-items:center;width:34px;height:34px;border-radius:9px;transition:color .2s,border-color .2s,background .2s}.show-shapes button:hover{color:var(--chip-color)}.show-shapes button[aria-pressed=true]{color:var(--chip-color);border-color:color-mix(in srgb,var(--chip-color) 25%,transparent);background:color-mix(in srgb,var(--chip-color) 8%,transparent)}.show-shapes button svg{width:20px;height:20px;stroke-width:1.2}.show-shapes>span{font-size:9px;color:#6e7591;margin-left:10px;line-height:1.4}.lab-figure-actions{display:flex;align-items:center;justify-content:center;gap:14px;padding-top:7px;min-height:36px}.lab-whole-controls{display:flex;align-items:center;gap:8px}.lab-whole-controls button,.show-explode{border:1px solid #ffffff15;background:#ffffff03;border-radius:8px;padding:5px 8px;font-size:10px;min-height:28px}.lab-whole-controls button:hover:not(:disabled),.show-explode:hover{border-color:#ffffff40;background:#ffffff09}.lab-whole-controls>span{font-size:9px;color:#8b91a7;white-space:nowrap}.lab-whole-controls button:first-child{font-size:16px;padding:0 8px}.show-explode{display:flex;align-items:center;gap:6px;color:#bca5e7}.show-explode svg{width:13px;height:13px}.show-explode[aria-pressed=true]{border-color:#bca5e760;background:#bca5e70d}
+.lab-core{align-self:center;min-width:0;position:relative;padding:10px 0}.readout-label{display:flex;gap:8px;align-items:center;text-transform:uppercase;letter-spacing:2px;font-size:9px;color:#9aa0b5;margin-bottom:22px}.readout-label>span{height:1px;width:24px;background:var(--accent)}.lab-fraction-read{display:flex;align-items:center;gap:30px}.lab-number{display:flex;align-items:center;gap:12px;color:var(--accent);font-variant-numeric:tabular-nums;filter:drop-shadow(0 0 28px color-mix(in srgb,var(--accent) 24%,transparent))}.lab-big-fraction{display:flex;flex-direction:column;font-size:clamp(55px,11cqh,110px);line-height:.98;text-align:center;min-width:1.05em;letter-spacing:-5px;font-weight:650}.lab-big-fraction>span:first-child{padding:0 8px 12px;border-bottom:2px solid var(--accent)}.lab-big-fraction>span:last-child{padding:12px 8px 0}#lab-whole-value{font-size:clamp(50px,9cqh,90px);font-weight:650;letter-spacing:-3px}.is-mixed .lab-big-fraction{font-size:clamp(45px,8cqh,75px)}.lab-meaning{display:flex;flex-direction:column;gap:40px;align-self:stretch;justify-content:center}.lab-meaning b{display:block;color:#d0d2e0;font-size:11px;font-weight:500;max-width:125px}.lab-meaning span{display:block;font-size:9px;color:#69718f;margin-top:5px}.lab-equivalent{display:flex;align-items:center;gap:8px;color:#9995b7;font-size:20px;margin-top:12px}.lab-meaning .lab-equivalent>span{font-size:inherit;color:inherit}.lab-meaning .lab-equivalent>.fraction{display:inline-flex}#show-fraction-name{margin-top:20px;font-size:14px;letter-spacing:-.3px;color:#e3deef}.lab-nudge{display:flex;align-items:center;gap:14px;margin-top:14px}.lab-nudge button{width:30px;height:30px;border:1px solid #ffffff18;border-radius:50%;color:#bbbdd0;font-size:20px;line-height:1;transition:background .2s,box-shadow .2s}.lab-nudge button:hover:not(:disabled){color:var(--accent);border-color:var(--accent);box-shadow:0 0 14px color-mix(in srgb,var(--accent) 15%,transparent)}.lab-nudge>span{font-size:9px;color:#7d849e}.show-touch{font-size:10px;margin-top:22px;color:#a4a7ba}.show-touch>span{color:#616985}.lab-refinement{display:flex;flex-direction:column;align-items:start;gap:7px;margin-top:12px}.lab-refinement>button{font-size:10px;border:1px solid #7edaff32;background:#7edaff0a;border-radius:7px;padding:7px 9px;color:#a5dbef}.lab-equality{color:#9da9c1;font-size:11px}.lab-refinement .lab-mini-math{font-size:16px}.lab-refinement .lab-equality>span:not(.lab-mini-math){display:none}
+.lab-axis{border-top:1px solid #ffffff0c;padding:13px 0 8px}.axis-heading{display:flex;justify-content:space-between;align-items:center;gap:10px}.axis-heading>span{display:flex;align-items:center;gap:8px;font-size:10px;color:#c8c3d7}.axis-heading i{height:4px;width:4px;border-radius:50%;background:var(--pink);box-shadow:0 0 10px var(--pink)}.axis-heading>small{color:#636b87;font-size:9px}.lab-line-wrap{position:relative;margin:8px 2px 0;padding-bottom:20px}.lab-line-wrap input{position:relative;z-index:1;width:100%;height:30px;margin:0;appearance:none;-webkit-appearance:none;background:transparent;cursor:grab;display:block;touch-action:none}.lab-line-wrap input:active{cursor:grabbing}.lab-line-wrap input::-webkit-slider-runnable-track{height:3px;background:transparent}.lab-line-wrap input::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:18px;height:18px;background:#ffe2f7;border:4px solid #0a0e1a;border-radius:50%;box-shadow:0 0 0 2px var(--pink),0 0 20px #f591df77;margin-top:-7.5px}.lab-line-wrap input::-moz-range-track{background:transparent;height:3px}.lab-line-wrap input::-moz-range-thumb{width:12px;height:12px;background:#ffe2f7;border:3px solid #0a0e1a;border-radius:50%;box-shadow:0 0 0 2px var(--pink)}#lab-line-segments{position:absolute;left:9px;right:9px;top:13px;height:4px;display:grid;grid-template-columns:repeat(var(--segments),minmax(0,1fr));pointer-events:none}#lab-line-segments>span{margin:0 1px;background:#23253d;border-radius:2px;transition:background .3s,box-shadow .3s}#lab-line-segments>.is-active{background:var(--pink);box-shadow:0 0 12px #f591df50}#lab-line-ticks{position:absolute;left:9px;right:9px;top:7px;pointer-events:none}#lab-line-ticks i{position:absolute;top:0;height:16px;width:1px;background:#50516e;opacity:.5}#lab-line-ticks i.edge{height:22px;top:-3px;opacity:.8}.lab-axis-labels{position:absolute;left:9px;right:9px;bottom:0;font-size:10px;color:#8a90a8;font-variant-numeric:tabular-nums}.lab-axis-labels>span{position:absolute;bottom:0;transform:translateX(-50%)}.lab-dense-axis #lab-line-segments>span{margin:0 .35px}.lab-dense-axis #lab-line-ticks i:not(.edge){opacity:.3}.axis-details{display:flex;justify-content:space-between;gap:10px;margin-top:6px;align-items:center;color:#707893;font-size:9px;min-height:26px}#lab-interval-note{display:flex;align-items:center;gap:5px;flex-wrap:wrap}#lab-interval-note>span:last-child{display:none}#lab-comparison{display:flex;align-items:center;gap:8px;font-size:9px}#lab-comparison>span:last-child{color:#69728e}.lab-mini-math{display:inline-flex;align-items:center;gap:8px;color:#c0b5d8;font-size:14px}.fraction{display:inline-flex;flex-direction:column;align-items:stretch;text-align:center;vertical-align:middle;min-width:.95em;line-height:1.03;margin:0 .12em;font-size:1em}.fraction .num{padding:0 .12em .14em;border-bottom:1.3px solid currentColor}.fraction .den{padding:.14em .12em 0}
+.lab-discovery{display:flex;align-items:center;gap:12px;border-top:1px solid #ffffff0b;padding:12px 0;min-height:60px}.discovery-icon{display:grid;place-items:center;color:var(--accent);width:28px;flex-shrink:0}.discovery-icon svg{height:22px;width:22px;fill:none;stroke:currentColor;stroke-width:1.3}.lab-discovery p{flex:1;min-width:0}.lab-discovery b{display:block;font-size:11px;font-weight:550;color:#d6d3e2}.lab-discovery p>span{font-size:9px;color:#777e98;display:block;margin-top:3px;line-height:1.4}.discovery-tag{font-size:7px;letter-spacing:1.4px;color:#565f7b;white-space:nowrap}.show-footer{display:flex;align-items:center;justify-content:space-between;font-size:9px;color:#515a75;gap:10px}.show-footer>span:last-child{font-size:8px;letter-spacing:1.5px}.show-footer i{font-style:normal;color:var(--accent);margin-left:7px}.show-demo-progress{height:2px;position:absolute;bottom:0;left:0;right:0;pointer-events:none;opacity:0}.show-demo-progress>span{height:100%;display:block;width:0;background:var(--accent);box-shadow:0 0 10px var(--accent)}.is-playing .show-demo-progress{opacity:1}
+.show-portrait .show-frame{width:min(100vw,calc(100dvh * 9 / 16));padding:0 18px;box-shadow:0 0 100px #000;border-left:1px solid #ffffff0b;border-right:1px solid #ffffff0b;background:#080a14}
+@container showframe (max-height:750px){.show-intro h1{font-size:42px;letter-spacing:-2px}.show-eyebrow{font-size:8px;margin-bottom:5px}.show-subtitle{margin-top:7px;font-size:10px}.show-toolbar{padding:10px 0}.show-main{padding:8px 0}.lab-core .show-touch{display:none}.readout-label{margin-bottom:12px}.lab-big-fraction{font-size:76px}#lab-whole-value{font-size:64px}.is-mixed .lab-big-fraction{font-size:60px}#show-fraction-name{margin-top:12px}.lab-axis{padding:9px 0 5px}.lab-discovery{min-height:48px;padding:8px 0}.lab-figure-actions{min-height:32px;padding-top:4px}}
+@container showframe (max-height:570px){.show-intro{display:none}.show-workbench{grid-row:2/4}.show-footer{grid-row:4}.show-toolbar{padding:6px 0}.show-main{padding:4px 0}.lab-figure-actions{padding-top:2px}.lab-discovery p>span{display:none}.lab-discovery{min-height:33px;padding:6px 0}.show-shapes{min-height:32px}.show-shapes button{width:28px;height:28px}.lab-meaning{gap:24px}.lab-big-fraction{font-size:48px}.is-mixed .lab-big-fraction{font-size:42px}#lab-whole-value{font-size:40px}.lab-nudge{margin-top:6px}.lab-axis{padding:6px 0 3px}.lab-line-wrap{margin-top:4px}}
+@container showframe (max-width:800px){.show-intro h1{font-size:38px;letter-spacing:-2px}.show-tools button{padding:8px}.show-tools button span{display:none}.lab-divisions{gap:12px}.lab-presets{gap:6px}.lab-presets span{display:none!important}.show-main{grid-template-columns:minmax(0,1.1fr) minmax(210px,.85fr);gap:12px}.lab-fraction-read{gap:18px}.lab-meaning b{font-size:10px}.lab-figure-actions{gap:7px}.show-explode{font-size:9px}.show-shapes>span{display:none}.show-workbench{padding:0 18px}.discovery-tag{display:none}}
+@container showframe (max-width:560px){
+ .show-header{gap:6px}.show-logo{font-size:20px;gap:7px}.show-mark,.show-mark svg{width:29px;height:29px}.show-tools{gap:4px}.show-tools button{min-height:30px;padding:5px 7px;border-radius:8px}.show-tools svg{width:16px;height:16px}.show-tools [data-show=fullscreen]{display:none}
+ .show-intro{align-items:end;padding-bottom:0;gap:5px}.show-intro h1{font-size:31px;letter-spacing:-1.7px;max-width:260px;line-height:1.04}.show-intro h1 em{display:block}.show-eyebrow{font-size:7px;letter-spacing:1.6px;margin-bottom:6px}.show-subtitle{display:none}.show-play{padding:10px;border-radius:12px;gap:0}.show-play>svg{width:19px;height:19px}.show-play b{display:none}.show-play small{font-size:8px;max-width:44px;line-height:1.3}.show-play span{margin-left:6px}
+ .show-workbench{border-radius:20px;padding:0 13px}.show-toolbar{padding:8px 0;gap:4px;flex-wrap:wrap}.lab-divisions{gap:8px;flex:1;flex-wrap:wrap}.tool-label{font-size:8px;display:none}.lab-divisions>div{gap:4px;flex:1}.lab-divisions button{height:29px;flex:1;min-width:25px;width:29px;font-size:10px;border-radius:7px}.lab-presets{gap:4px;margin-left:auto}.lab-presets button{min-height:25px;font-size:14px;padding:2px 4px}
+ .show-main{display:flex;flex-direction:column;gap:8px;padding:8px 0}.lab-carousel{flex:1;width:100%}.shape-heading{font-size:11px;min-height:18px;gap:8px}.shape-heading #lab-figure-position{font-size:8px}.shape-live{font-size:6px}.lab-carousel-stage{gap:3px}.lab-model{width:min(100cqh,calc(100cqw - 55px))}.lab-model.lab-strip-model{width:calc(100cqw - 55px)}.lab-model.lab-multiple-wholes{width:min(calc(100cqh * var(--lab-grid-aspect)),calc(100cqw - 55px))}.lab-arrow{width:24px;height:32px}.lab-arrow svg{width:20px}.lab-model #lab-active-model.lab-multi{gap:7px}.stage-star{font-size:17px}.show-shapes{min-height:32px;gap:7px}.show-shapes button{width:28px;height:28px;border-radius:7px}.show-shapes button svg{width:17px;height:17px}.lab-figure-actions{min-height:28px;gap:8px;padding-top:3px}.lab-whole-controls{gap:6px}.lab-whole-controls button,.show-explode{font-size:8px;min-height:25px;padding:4px 6px;border-radius:6px}.lab-whole-controls>span{font-size:8px}.lab-whole-controls button:first-child{font-size:15px}.show-explode svg{width:11px}
+ .lab-core{flex-shrink:0;display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:8px;width:100%;padding:8px 9px 0;border-top:1px solid #ffffff0a;min-height:0}.readout-label{display:none}.lab-fraction-read{grid-column:1;grid-row:1/3;gap:15px}.lab-big-fraction,.is-mixed .lab-big-fraction{font-size:44px;letter-spacing:-2px;line-height:.95}#lab-whole-value{font-size:39px;letter-spacing:-2px}.lab-number{gap:8px}.lab-big-fraction>span:first-child{padding:0 5px 5px}.lab-big-fraction>span:last-child{padding:5px 5px 0}.lab-meaning{gap:12px}.lab-meaning b{font-size:9px;max-width:110px}.lab-meaning span{font-size:7px;margin-top:2px}.lab-equivalent{font-size:15px;margin-top:6px}.lab-meaning .lab-equivalent>span{font-size:15px}#show-fraction-name{display:none}.lab-nudge{grid-column:2;grid-row:1/3;flex-direction:column;gap:7px;margin:0}.lab-nudge>span{display:none}.lab-nudge button{width:28px;height:28px;font-size:18px}.lab-nudge button:first-child{order:2}.show-touch{display:none}.lab-refinement{grid-column:1/-1;flex-direction:row;align-items:center;gap:8px;justify-content:center;margin-top:8px}.lab-refinement>button{font-size:8px;padding:5px 7px}.lab-refinement .lab-mini-math{font-size:12px}
+ .lab-axis{padding:8px 0 5px}.axis-heading>span{font-size:8px;gap:5px}.axis-heading small{display:none}.lab-line-wrap{margin-top:4px;padding-bottom:16px}.lab-axis-labels{font-size:9px}.axis-details{font-size:8px;margin-top:4px;min-height:22px}#lab-comparison>span:last-child{display:none}.lab-mini-math{font-size:12px;gap:5px}#lab-interval-note{gap:3px}.lab-discovery{gap:7px;padding:8px 0;min-height:40px}.discovery-icon{width:16px}.discovery-icon svg{width:16px;height:16px}.lab-discovery b{font-size:9px}.lab-discovery p>span{font-size:8px;line-height:1.4}.show-footer{font-size:7px}.show-footer>span:last-child{font-size:6px;letter-spacing:1px}#show-badge{font-size:8px;padding:5px 8px;max-width:95%;white-space:normal;text-align:center}
+}
+@container showframe (max-width:560px) and (max-height:700px){.lab-discovery p>span{display:none}.show-eyebrow{display:none}.show-intro h1{font-size:25px}.lab-divisions button{min-width:23px;height:26px}.show-toolbar{padding:5px 0}.show-main{gap:5px;padding:5px 0}.lab-big-fraction,.is-mixed .lab-big-fraction{font-size:32px}#lab-whole-value{font-size:30px}.show-shapes{min-height:26px}.show-shapes button{width:24px;height:24px}.lab-core{padding-top:5px}.lab-refinement{margin-top:4px}.lab-discovery{min-height:31px;padding:5px 0}.lab-axis{padding-top:5px}.lab-figure-actions{padding-top:1px}.lab-line-wrap{margin-top:0}.show-footer>span:first-child{display:none}.show-footer{justify-content:center}}
+@media(max-width:800px){.show-frame{padding:6px 20px 5px;gap:10px;grid-template-rows:44px auto minmax(0,1fr) 18px}}
+@media(max-width:560px){.show-frame{padding:4px 14px;gap:9px;grid-template-rows:42px auto minmax(0,1fr) 16px}}
+.show-portrait .show-frame{grid-template-rows:44px auto minmax(0,1fr) 18px;gap:10px;padding-top:4px;padding-bottom:4px}
+.show-main{grid-template-rows:minmax(0,1fr);container-type:size}
+.lab-core{padding:5px 0}
+.readout-label{margin-bottom:10px}
+.lab-big-fraction{font-size:clamp(32px,24cqh,100px)}
+.is-mixed .lab-big-fraction{font-size:clamp(28px,20cqh,78px)}
+#lab-whole-value{font-size:clamp(28px,20cqh,80px)}
+#show-fraction-name{margin-top:8px}
+.lab-nudge{margin-top:10px}
+.show-touch{display:none}
+.lab-refinement{flex-direction:row;align-items:center;flex-wrap:wrap;gap:8px}
+.lab-core:has(.lab-refinement:not([hidden])) #show-fraction-name{display:none}
+.lab-core:has(.lab-refinement:not([hidden])) .lab-big-fraction{font-size:clamp(32px,18cqh,78px)}
+@container showframe (max-height:570px) and (min-width:561px){
+ .show-workbench{grid-template-rows:auto minmax(0,1fr) auto}
+ .show-shapes,.lab-discovery,.axis-details{display:none}
+ .show-main{padding:5px 0}
+ .shape-heading{min-height:18px;font-size:11px}
+ .lab-core{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;padding:5px 0}
+ .readout-label,#show-fraction-name{display:none}
+ .lab-fraction-read{gap:18px}
+ .lab-meaning{gap:14px}
+ .lab-big-fraction,.is-mixed .lab-big-fraction,.lab-core:has(.lab-refinement:not([hidden])) .lab-big-fraction{font-size:38px;letter-spacing:-2px}
+ #lab-whole-value{font-size:34px}
+ .lab-big-fraction>span:first-child{padding-bottom:5px}.lab-big-fraction>span:last-child{padding-top:5px}
+ .lab-nudge{margin:0;flex-direction:column;gap:8px}.lab-nudge>span{display:none}.lab-nudge button:first-child{order:2}
+ .lab-refinement{grid-column:1/-1;margin-top:2px}
+ .lab-refinement>button{font-size:9px;padding:5px 7px}.lab-refinement .lab-mini-math{font-size:13px}
+ .lab-equivalent{font-size:14px;margin-top:4px}
+}
+@container showframe (max-width:560px){.lab-core{padding:6px 9px 0}.lab-big-fraction,.is-mixed .lab-big-fraction{font-size:44px}#lab-whole-value{font-size:39px}.lab-nudge{margin:0}}
+@container showframe (max-width:560px) and (max-height:700px){.lab-big-fraction,.is-mixed .lab-big-fraction{font-size:32px}#lab-whole-value{font-size:30px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.orbit{display:none}}
+</style>
+<style id="matlab-navigation-style">
+.matlab-return{position:fixed;bottom:max(12px,env(safe-area-inset-bottom));left:max(12px,env(safe-area-inset-left));z-index:30;display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:9px 15px;border-radius:999px;border:1px solid #c6a9ff77;background:#29144bed;color:#fff;text-decoration:none;font:700 12px/1.2 system-ui,-apple-system,sans-serif;box-shadow:0 5px 24px #0009;backdrop-filter:blur(10px)}
+.matlab-return:hover,.matlab-return:focus-visible{background:#4d2690;outline:2px solid #f59d5b;outline-offset:2px}
+</style>
+</head>
+<body>
+<a class="matlab-return" href="index.html" aria-label="Вернуться к меню игр">← Все игры</a>
+<canvas id="show-canvas" aria-hidden="true"></canvas>
+<div id="app"></div>
+<noscript>Откройте этот файл в браузере с включённым JavaScript, чтобы запустить лабораторию.</noscript>
+<script>'use strict';
+const root=document.getElementById('app');
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function fraction(s){const [a,b]=String(s).split('/');return b?`<span class="fraction" aria-label="${esc(a)} из ${esc(b)}"><span class="num">${esc(a)}</span><span class="den">${esc(b)}</span></span>`:esc(s);}
+
+
+const lab={d:4,wholes:1,parts:new Set([0,1,2]),refined:false,figure:0};
+const LAB_MAX_WHOLES=9;
+const LAB_DIVISIONS=[1,2,3,4,6,8,12];
+const LAB_FIGURES=[
+  {id:'circle',label:'Круг',tone:'mint'},
+  {id:'square',label:'Плитки',tone:'lilac'},
+  {id:'triangle',label:'Треугольник',tone:'coral'},
+  {id:'strip',label:'Полоска',tone:'sky'},
+  {id:'objects',label:'Бусины',tone:'gold'}
+];
+
+function labHit(model,i,unit=0){const index=unit*lab.d+i;return `class="lab-hit" data-lab-part="${index}" data-lab-model="${model}" role="button" tabindex="0" aria-label="${model==='objects'?'Группа':'Доля'} ${i+1} из ${lab.d}${lab.wholes>1?', целое '+(unit+1)+' из '+lab.wholes:''}: ${model==='circle'?'круг':model==='triangle'?'треугольник':model==='square'?'плитки':model==='strip'?'полоска':'бусины'}" aria-pressed="${lab.parts.has(index)}"`;}
+function labSVG(model,body,box='0 0 180 180'){
+  const names={circle:'Круг',triangle:'Треугольник',square:'Плитки',objects:'Бусины',strip:'Полоска'};
+  const contours={
+    circle:'M90 14A76 76 0 1 1 90 166A76 76 0 1 1 90 14Z',
+    triangle:`M${labTriangleParts(1)[0].map(p=>p.join(' ')).join('L')}Z`,
+    square:'M13 13H167V167H13Z',objects:'M10 10H170V170H10Z',strip:'M0 5H600V55H0Z'
+  };
+  return `<svg viewBox="${box}" class="lab-figure" role="group" aria-label="${names[model]}: ${lab.d===1?'одно целое без деления':lab.d+' равных частей'}">${body}<path class="lab-outline" d="${contours[model]}" aria-hidden="true"/></svg>`;
+}
+// As in the tutor, adjoining fills share one thin divider, without gaps between parts.
+function labDividers(path){return path?`<path class="lab-divider" d="${path}" aria-hidden="true"/>`:'';}
+function labGridDividers(cols,rows,x,y,width,height){
+  let path='';
+  for(let col=1;col<cols;col++)path+=`M${x+col*width/cols} ${y}V${y+height}`;
+  for(let row=1;row<rows;row++)path+=`M${x} ${y+row*height/rows}H${x+width}`;
+  return labDividers(path);
+}
+function labTriangleDividers(parts){
+  const pointKey=p=>p.map(v=>v.toFixed(7)).join(',');
+  const vertices=[...new Map(parts.flat().map(p=>[pointKey(p),p])).values()],edges=new Map();
+  for(const part of parts)part.forEach((a,i)=>{
+    const b=part[(i+1)%part.length],dx=b[0]-a[0],dy=b[1]-a[1],length2=dx*dx+dy*dy;
+    // At a T junction, one long edge adjoins two shorter edges. Split them
+    // at every shared vertex before counting, so no internal boundary is lost.
+    const cuts=vertices.map(p=>({p,t:((p[0]-a[0])*dx+(p[1]-a[1])*dy)/length2}))
+      .filter(({p,t})=>t>=-1e-9&&t<=1+1e-9&&Math.abs(dx*(p[1]-a[1])-dy*(p[0]-a[0]))<1e-7*Math.sqrt(length2))
+      .sort((u,v)=>u.t-v.t);
+    for(let j=1;j<cuts.length;j++){
+      const start=cuts[j-1].p,end=cuts[j].p,key=[pointKey(start),pointKey(end)].sort().join('|');
+      const edge=edges.get(key);if(edge)edge.count++;else edges.set(key,{a:start,b:end,count:1});
+    }
+  });
+  return labDividers([...edges.values()].filter(edge=>edge.count===2).map(({a,b})=>`M${a.join(' ')}L${b.join(' ')}`).join(''));
+}
+function labTriangleParts(count){
+  const top=[90,22],left=[12,22+78*Math.sqrt(3)],right=[168,left[1]];
+  const midpoint=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2];
+  const quarters=([a,b,c])=>{const ab=midpoint(a,b),ac=midpoint(a,c),bc=midpoint(b,c);return [[a,ab,ac],[ab,b,bc],[ac,ab,bc],[ac,bc,c]];};
+  const halves=([a,b,c])=>{const m=midpoint(b,c);return [[a,b,m],[a,m,c]];};
+  const thirds=([a,b,c])=>{const center=[(a[0]+b[0]+c[0])/3,(a[1]+b[1]+c[1])/3];return [[a,b,center],[b,c,center],[c,a,center]];};
+  const whole=[top,left,right];
+  // Each layout consists of congruent triangles. For 8 and 12, subdivide
+  // four equilateral quarters instead of converging every cut at one tip.
+  if(count===1)return [whole];
+  if(count===2)return halves(whole);
+  if(count===3)return thirds(whole);
+  if(count===4)return quarters(whole);
+  if(count===6)return thirds(whole).flatMap(([a,b,center])=>halves([center,a,b]));
+  if(count===8)return quarters(whole).flatMap(halves);
+  if(count===12)return quarters(whole).flatMap(thirds);
+  throw new RangeError('Unsupported triangle partition');
+}
+function labWholeSVG(model,unit=0){
+  const d=lab.d;let circle='',triangle='',square='',objects='',strip='';
+  const triangleParts=labTriangleParts(d);
+  const cols=d===1?1:d===2?2:d===3?3:d===4?2:d===6?3:4,rows=d/cols;
+  const objCols=d===1?1:d===3?3:d<=4?2:d===6?3:4,objRows=d/objCols,objW=160/objCols,objH=160/objRows;
+  for(let i=0;i<d;i++){
+    const start=i*2*Math.PI/d-Math.PI/2,end=(i+1)*2*Math.PI/d-Math.PI/2;
+    circle+=d===1?`<circle ${labHit('circle',i,unit)} cx="90" cy="90" r="76"/>`:`<path ${labHit('circle',i,unit)} d="M90 90L${90+76*Math.cos(start)} ${90+76*Math.sin(start)}A76 76 0 ${end-start>Math.PI?1:0} 1 ${90+76*Math.cos(end)} ${90+76*Math.sin(end)}Z"/>`;
+    triangle+=`<path ${labHit('triangle',i,unit)} d="M${triangleParts[i].map(p=>p.join(' ')).join('L')}Z"/>`;
+    square+=`<rect ${labHit('square',i,unit)} x="${13+i%cols*154/cols}" y="${13+Math.floor(i/cols)*154/rows}" width="${154/cols}" height="${154/rows}"/>`;
+    const x=10+i%objCols*objW,y=10+Math.floor(i/objCols)*objH,per=24/d,dotCols=d===1?6:per<=3?per:per===4?2:3,dotRows=Math.ceil(per/dotCols),step=Math.min((objW-14)/dotCols,(objH-12)/dotRows,20),radius=Math.min(6,step*.31);
+    objects+=`<g ${labHit('objects',i,unit)}><rect class="lab-group-bound" x="${x}" y="${y}" width="${objW}" height="${objH}"/>${Array.from({length:per},(_,j)=>`<circle class="lab-bead" cx="${x+objW/2+(j%dotCols-(dotCols-1)/2)*step}" cy="${y+objH/2+(Math.floor(j/dotCols)-(dotRows-1)/2)*step}" r="${radius}"/>`).join('')}</g>`;
+    strip+=`<g ${labHit('strip',i,unit)}><rect x="${i*600/d}" y="5" width="${600/d}" height="50"/><path class="lab-subcut" d="M${(i+.5)*600/d} 5V55"/></g>`;
+  }
+  circle+=d===1?'':labDividers(Array.from({length:d},(_,i)=>{const angle=i*2*Math.PI/d-Math.PI/2;return `M90 90L${90+76*Math.cos(angle)} ${90+76*Math.sin(angle)}`;}).join(''));
+  triangle+=labTriangleDividers(triangleParts);
+  square+=labGridDividers(cols,rows,13,13,154,154);
+  objects+=labGridDividers(objCols,objRows,10,10,160,160);
+  strip+=labGridDividers(d,1,0,5,600,50);
+  const models={circle,triangle,square,objects,strip};
+  return labSVG(model,models[model],model==='strip'?'0 -30 600 120':'0 0 180 180');
+}
+function mountLab(){
+  const d=lab.d,total=d*lab.wholes,figure=LAB_FIGURES[lab.figure];
+  const multiple=lab.wholes>1,active=document.getElementById('lab-active-model');
+  const model=document.getElementById('lab-current-figure');
+  model.className=`lab-model lab-${figure.tone}${figure.id==='strip'?' lab-strip-model':''}${multiple?' lab-multiple-wholes':''}${lab.wholes>2?' lab-many-wholes':''}`;
+  const cols=lab.wholes<=3?lab.wholes:lab.wholes===4?2:3,rows=Math.ceil(lab.wholes/cols);
+  model.style.setProperty('--lab-cols',cols);model.style.setProperty('--lab-rows',rows);
+  model.style.setProperty('--lab-grid-aspect',cols/rows);
+  model.style.setProperty('--lab-grid-adjust',((cols-1)*8-(rows-1)*8*cols/rows-(lab.wholes>2?0:16*cols))+'px');
+  active.classList.toggle('lab-multi',multiple);
+  active.innerHTML=multiple?Array.from({length:lab.wholes},(_,unit)=>`<div class="lab-whole" role="group" aria-label="Целое ${unit+1} из ${lab.wholes}">${labWholeSVG(figure.id,unit)}<span class="lab-unit-label" aria-hidden="true">1 целое</span></div>`).join(''):labWholeSVG(figure.id);
+  root.querySelector('[data-lab-action="add-whole"]').disabled=lab.wholes>=LAB_MAX_WHOLES;
+  root.querySelector('[data-lab-action="remove-whole"]').disabled=!multiple;
+  document.getElementById('lab-whole-count').textContent=`Целых: ${lab.wholes} / ${LAB_MAX_WHOLES}`;
+  document.getElementById('lab-figure-name').textContent=figure.label;
+  document.getElementById('lab-figure-position').textContent=`${lab.figure+1} / ${LAB_FIGURES.length}`;
+  root.querySelector('.lab-refinement').hidden=figure.id!=='strip';
+  root.querySelector('[data-lab-action="previous-figure"]').setAttribute('aria-label',`Предыдущая фигура: ${LAB_FIGURES[(lab.figure+LAB_FIGURES.length-1)%LAB_FIGURES.length].label}`);
+  root.querySelector('[data-lab-action="next-figure"]').setAttribute('aria-label',`Следующая фигура: ${LAB_FIGURES[(lab.figure+1)%LAB_FIGURES.length].label}`);
+  document.getElementById('lab-line-segments').style.setProperty('--segments',total);
+  document.getElementById('lab-line-segments').innerHTML=Array.from({length:total},(_,i)=>`<span data-lab-interval="${i}"></span>`).join('');
+  document.getElementById('lab-line-ticks').innerHTML=Array.from({length:total+1},(_,i)=>`<i style="left:${i/total*100}%" class="${i%d===0?'edge':''}"></i>`).join('');
+  document.getElementById('lab-line').max=total;
+  root.querySelector('.lab-axis-labels').innerHTML=`<span style="left:0">0</span>${multiple?Array.from({length:lab.wholes-1},(_,i)=>`<span style="left:${(i+1)/lab.wholes*100}%">${i+1}</span>`).join(''):`<span id="lab-half-label" style="left:50%" ${d===1?'hidden':''}>½</span>`}<span id="lab-line-end" style="left:100%">${lab.wholes}</span>`;
+  root.querySelector('.lab-axis').classList.toggle('lab-dense-axis',total>24);
+  root.querySelectorAll('[data-lab-action="divide"]').forEach(b=>b.setAttribute('aria-pressed',String(Number(b.dataset.value)===d)));
+  updateLab();
+}
+function labRelation(n,d){return n*2===d?'=':n*2<d?'&lt;':'&gt;';}
+function labWholeText(n){return `${n} ${n===1?'целое':'целых'}`;}
+function labValueText(){
+  const n=lab.parts.size,d=lab.d,whole=Math.floor(n/d),rest=n%d;
+  return whole?`${labWholeText(whole)}${rest?` и ${rest} из ${d} долей`:''}`:`${n} из ${d} долей целого`;
+}
+function updateLab(message){
+  if(!document.getElementById('lab-n'))return;
+  const n=lab.parts.size,d=lab.d,multiple=lab.wholes>1,whole=Math.floor(n/d),rest=n%d,mixed=multiple&&whole>0,model=LAB_FIGURES[lab.figure].id,refined=lab.refined&&model==='strip';
+  root.querySelectorAll('[data-lab-part]').forEach(el=>{
+    const i=Number(el.dataset.labPart);el.classList.toggle('is-on',lab.parts.has(i));
+    el.setAttribute('aria-pressed',String(lab.parts.has(i)));
+  });
+  const text=(id,value)=>document.getElementById(id).textContent=value;
+  text('lab-n',mixed?rest:n);text('lab-d',d);
+  const integer=document.getElementById('lab-whole-value');integer.hidden=!mixed;integer.textContent=whole;
+  root.querySelector('.lab-big-fraction').hidden=mixed&&!rest;
+  root.querySelector('.lab-core').classList.toggle('is-mixed',mixed);
+  document.getElementById('lab-meaning').innerHTML=mixed?`<div><b>${rest?(whole===1?'целое и доли':'целые и доли'):labWholeText(whole)}</b><span>В каждом целом — ${d===1?'1 часть':d+' равных '+(d<5?'части':'частей')}.</span><p id="lab-equivalent" class="lab-equivalent"><span>=</span>${fraction(n+'/'+d)}</p></div>`:'<div><b>части взяли</b><span>числитель</span></div><div><b>частей в одном целом</b><span>знаменатель</span></div>';
+  text('lab-figure-note',multiple?model==='objects'?`Выбрано ${24/d*n} бусин. В каждом целом — 24.`:'Каждая фигура — одно целое. Выбирай доли.':d===1?model==='objects'?'Все 24 бусины — одно целое. Нажми на группу.':'Целое без деления. Нажми на фигуру.':model==='objects'?`${24/d*n} из 24 бусин. Нажимай на группы.`:'Нажимай на доли, чтобы выбрать их.');
+  text('lab-core-note',labValueText());
+  root.querySelector('[data-lab-action="less"]').disabled=n===0;root.querySelector('[data-lab-action="more"]').disabled=n===LAB_MAX_WHOLES*d;
+  const line=document.getElementById('lab-line');line.value=n;line.setAttribute('aria-valuetext',labValueText());
+  root.querySelectorAll('[data-lab-interval]').forEach(el=>el.classList.toggle('is-active',Number(el.dataset.labInterval)<n));
+  document.getElementById('lab-interval-note').innerHTML=d===1?'Отрезок от 0 до 1 — одно целое.':`Каждый отрезок — <span class="lab-mini-math">${fraction('1/'+d)}</span> целого. <span>${multiple?'Выбрано долей: '+n:'Выбрано '+n+' из '+d}.</span>`;
+  const comparison=multiple?`${fraction(n+'/'+d)}<span>${n===d?'=':n<d?'&lt;':'&gt;'}</span><span>1</span>`:`${fraction(n+'/'+d)}<span>${labRelation(n,d)}</span>${fraction('1/2')}`;
+  const comparisonText=multiple?n===d?'Ровно одно целое':n<d?'Меньше целого':'Больше целого':n*2===d?'Ровно половина':n*2<d?'Меньше половины':'Больше половины';
+  document.getElementById('lab-comparison').innerHTML=`<span class="lab-mini-math">${comparison}</span><span>${comparisonText}</span>`;
+  root.querySelector('.lab-strip-model')?.classList.toggle('is-refined',refined);
+  root.querySelector('[data-lab-action="refine"]').setAttribute('aria-pressed',String(lab.refined));
+  text('lab-refine-label',lab.refined?'Собрать доли обратно':d===1?'Разделить целое на 2':'Разделить доли ещё на 2');
+  document.getElementById('lab-equality').innerHTML=lab.refined?`<span class="lab-mini-math">${fraction(n+'/'+d)}<span>=</span>${fraction(n*2+'/'+d*2)}</span>`:'<span>Количество изменится. А величина?</span>';
+  text('lab-insight-title',refined?'Больше долей. Та же величина.':n===0?'Пока ни одной части.':multiple?labValueText()+'.':n===d?`${d} из ${d} — одно целое.`:`${n} из ${d}. Вот что говорит дробь.`);
+  text('lab-insight-detail',refined?`Каждую долю разделили пополам: ${n}/${d} = ${n*2}/${d*2}. Закрашенная часть осталась прежней.`:multiple?`В одном целом ${d===1?'одна доля':d+' долей'}. Всего выбрано ${n}: это ${n}/${d}.`:n===0?'Выбери долю фигуры — на прямой появится отрезок такой же величины.':n===d?'Выбраны все части. На прямой это весь отрезок от 0 до 1.':`Взяли ${n} из ${d} равных частей. На прямой от нуля отложили столько же равных отрезков.`);
+  if(message)text('lab-announcement',message);
+}
+function commitLab(parts,message){lab.parts=new Set([...parts].filter(i=>Number.isInteger(i)&&i>=0&&i<lab.d*lab.wholes));updateLab(message||labValueText()+'.');}
+function changeLabWholes(direction){
+  const d=lab.d;
+  if(direction>0){
+    if(lab.wholes>=LAB_MAX_WHOLES)return;
+    lab.parts=new Set([...Array.from({length:d},(_,i)=>i),...[...lab.parts].map(i=>i+d)]);lab.wholes++;
+  }else{
+    if(lab.wholes<=1)return;
+    const counts=Array.from({length:lab.wholes},(_,unit)=>[...lab.parts].filter(i=>Math.floor(i/d)===unit).length);
+    const full=counts.indexOf(d),remove=full>=0?full:counts.lastIndexOf(0);
+    // Remove a full (or empty) figure intact. If all are partial, regroup
+    // the remaining value into the smaller field without dropping a fraction.
+    lab.parts=remove>=0?new Set([...lab.parts].filter(i=>Math.floor(i/d)!==remove).map(i=>i>remove*d?i-d:i)):new Set(Array.from({length:lab.parts.size>d?lab.parts.size-d:lab.parts.size},(_,i)=>i));
+    lab.wholes--;
+  }
+  mountLab();document.getElementById('lab-announcement').textContent=labValueText()+'.';
+}
+function divideLab(next){
+  const previous=lab.d,parts=new Set();
+  for(let unit=0;unit<lab.wholes;unit++){
+    const chosen=[...lab.parts].filter(i=>i>=unit*previous&&i<(unit+1)*previous).map(i=>i-unit*previous);
+    const kept=next===1?[0]:chosen.length===previous?Array.from({length:next},(_,i)=>i):chosen.filter(i=>i<next);
+    for(const i of kept)parts.add(unit*next+i);
+  }
+  lab.d=next;lab.parts=parts;if(next===1)lab.refined=false;mountLab();
+}
+
+function switchLabFigure(direction){
+  lab.figure=(lab.figure+direction+LAB_FIGURES.length)%LAB_FIGURES.length;mountLab();
+  document.getElementById('lab-announcement').textContent=`${LAB_FIGURES[lab.figure].label}. ${labValueText()}. Дробь сохранилась.`;
+}
+root.addEventListener('keydown',event=>{
+  if(event.target.closest('.lab-carousel')&&['ArrowLeft','ArrowRight'].includes(event.key)){
+    event.preventDefault();const dir=event.key==='ArrowRight'?1:-1,partFocused=event.target.matches('[data-lab-part]');switchLabFigure(dir);
+    if(partFocused)root.querySelector(`[data-lab-action="${dir>0?'next':'previous'}-figure"]`).focus({preventScroll:true});return;
+  }
+  if(event.target.matches('[data-lab-part]')&&['Enter',' '].includes(event.key)){event.preventDefault();event.target.dispatchEvent(new MouseEvent('click',{bubbles:true}));}
+});
+root.addEventListener('input',event=>{if(event.target.id==='lab-line')commitLab(Array.from({length:Number(event.target.value)},(_,i)=>i));});
+root.addEventListener('click',event=>{
+  const part=event.target.closest('[data-lab-part]');
+  if(part){const i=Number(part.dataset.labPart),parts=new Set(lab.parts);parts.has(i)?parts.delete(i):parts.add(i);commitLab(parts);return;}
+  const button=event.target.closest('[data-lab-action]');if(!button||button.disabled)return;
+  const action=button.dataset.labAction;
+  if(action==='previous-figure'||action==='next-figure'){switchLabFigure(action==='next-figure'?1:-1);return;}
+  if(action==='add-whole'||action==='remove-whole'){changeLabWholes(action==='add-whole'?1:-1);return;}
+  if(action==='divide'){
+    divideLab(Number(button.dataset.value));
+    document.getElementById('lab-announcement').textContent=`В каждом целом ${lab.d===1?'одна часть':lab.d+' равных частей'}. ${labValueText()}.`;return;
+  }
+  if(action==='half'){if(lab.d%2)divideLab(4);commitLab(Array.from({length:lab.d/2},(_,i)=>i),'Половина одного целого.');}
+  if(action==='whole')commitLab(Array.from({length:lab.d},(_,i)=>i),'Выбрано одно целое.');
+  if(action==='clear')commitLab([],'Ни одной части не выбрано.');
+  if(action==='less'){const parts=new Set(lab.parts);parts.delete([...parts].sort((a,b)=>b-a)[0]);commitLab(parts);}
+  if(action==='more'){
+    if(lab.parts.size===lab.d*lab.wholes&&lab.wholes<LAB_MAX_WHOLES){lab.wholes++;mountLab();}
+    const parts=new Set(lab.parts);for(let i=0;i<lab.d*lab.wholes;i++)if(!parts.has(i)){parts.add(i);break;}commitLab(parts);
+  }
+  if(action==='refine'){lab.refined=!lab.refined;updateLab(lab.refined?`Каждая доля разделена на два. ${lab.parts.size}/${lab.d} равно ${lab.parts.size*2}/${lab.d*2}. Величина не изменилась.`:'Вернулись к исходным долям.');}
+});
+
+// Effects are presentation only; the fraction engine is shared with the standard edition.
+const show={sound:true,audio:null,master:null,particles:[],timers:[],playing:false,started:0,portrait:false,exploded:false,signature:'',value:'',lastPoint:null,ready:false,reduced:matchMedia('(prefers-reduced-motion: reduce)').matches};
+const SHOW_COLORS=['#c6ff72','#bd9bff','#ff9b77','#73d8ff','#ffd575'];
+const glyph={sound:'<path d="M4 9h4l5-4v14l-5-4H4Z"/><path d="M17 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14"/>',mute:'<path d="M4 9h4l5-4v14l-5-4H4Z"/><path d="m17 9 5 6m0-6-5 6"/>',frame:'<rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 18h4"/>',full:'<path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/>',play:'<path d="m8 5 12 7-12 7Z"/>',stop:'<rect x="6" y="6" width="12" height="12" rx="2"/>',spark:'<path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5Z"/>',left:'<path d="m14 5-7 7 7 7"/>',right:'<path d="m10 5 7 7-7 7"/>'};
+function icon(name){return `<svg viewBox="0 0 24 24" aria-hidden="true">${glyph[name]||glyph.spark}</svg>`;}
+const shapeIcons=['<circle cx="12" cy="12" r="8"/><path d="M12 4v16M4 12h16"/>','<rect x="4" y="4" width="16" height="16"/><path d="M12 4v16M4 12h16"/>','<path d="m12 3 10 18H2ZM7 12h10m-5 9-5-9m5 9 5-9"/>','<path d="M2 7h20v10H2ZM7 7v10m5-10v10m5-10v10"/>','<circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/>'];
+function renderShow(){return `<div class="show-frame">
+ <header class="show-header"><div class="show-logo" aria-label="Smarty Kids"><span class="show-mark">${icon('spark')}</span><span>Smarty<span class="kids">Kids</span></span></div><div class="show-tools"><button data-show="sound" aria-label="Выключить звук" aria-pressed="true" title="Звук">${icon('sound')}<span>Звук</span></button><button data-show="portrait" aria-label="Вертикальный кадр 9 на 16" aria-pressed="false" title="Кадр 9:16">${icon('frame')}<span>9:16</span></button><button data-show="fullscreen" aria-label="На весь экран" title="На весь экран">${icon('full')}</button></div></header>
+ <section class="show-intro"><div><p class="show-eyebrow"><i></i>Потрогай математику</p><h1>Лаборатория <em>дробей.</em></h1><p class="show-subtitle">Один клик. Маленькая доля. Большое открытие.</p></div><button class="show-play" data-show="demo">${icon('play')}<span><b id="show-play-label">Включить магию</b><small>Шоу · 30 секунд</small></span></button></section>
+ <main class="show-workbench">
+  <div class="show-toolbar"><div class="lab-divisions"><span class="tool-label">Раздели целое</span><div role="group" aria-label="Количество равных частей">${LAB_DIVISIONS.map(d=>`<button data-lab-action="divide" data-value="${d}" aria-label="${d===1?'Целое без деления':d+' равных частей'}" aria-pressed="${d===lab.d}">${d}</button>`).join('')}</div></div><div class="lab-presets"><button data-lab-action="half">½ <span>Половина</span></button><button data-lab-action="whole">1 <span>Целое</span></button><button data-lab-action="clear" aria-label="Очистить выделение">↺ <span>Очистить</span></button></div></div>
+  <div class="show-main">
+   <section class="lab-carousel" aria-label="Модели дробей"><div class="shape-heading"><span id="lab-figure-name">Круг</span><span id="lab-figure-position">1 / 5</span><span class="shape-live"><i></i>LIVE</span></div>
+    <div class="lab-carousel-stage"><div class="orbit orbit-one" aria-hidden="true"></div><div class="orbit orbit-two" aria-hidden="true"></div><div class="stage-glow" aria-hidden="true"></div><span class="stage-star star-one" aria-hidden="true">✦</span><span class="stage-star star-two" aria-hidden="true">+</span>
+     <button class="lab-arrow" data-lab-action="previous-figure" aria-label="Предыдущая фигура">${icon('left')}</button><figure class="lab-model lab-mint" id="lab-current-figure"><div id="lab-active-model"></div><figcaption id="lab-figure-note" class="visually-hidden"></figcaption></figure><button class="lab-arrow" data-lab-action="next-figure" aria-label="Следующая фигура">${icon('right')}</button>
+     <div id="show-badge" aria-live="polite"></div>
+    </div>
+    <div class="show-shapes" role="group" aria-label="Выбрать фигуру">${LAB_FIGURES.map((f,i)=>`<button data-show-figure="${i}" aria-label="${f.label}" aria-pressed="${i===0}" title="${f.label}" style="--chip-color:${SHOW_COLORS[i]}"><svg viewBox="0 0 24 24" aria-hidden="true">${shapeIcons[i]}</svg></button>`).join('')}<span>Новая форма.<br>Та же дробь.</span></div>
+    <div class="lab-figure-actions"><div class="lab-whole-controls" role="group" aria-label="Количество целых"><button data-lab-action="remove-whole" aria-label="Убрать одно целое">−</button><span id="lab-whole-count"></span><button data-lab-action="add-whole" aria-label="Добавить одно целое">+ целое</button></div><button class="show-explode" data-show="explode" aria-pressed="false">${icon('spark')}<span>Разобрать</span></button></div>
+   </section>
+   <section class="lab-core" aria-labelledby="lab-core-title"><p id="lab-core-title" class="readout-label"><span></span>Твоя дробь</p><div class="lab-fraction-read"><div class="lab-number" aria-hidden="true"><span id="lab-whole-value" hidden></span><div class="lab-big-fraction"><span id="lab-n">3</span><span id="lab-d">4</span></div></div><div class="lab-meaning" id="lab-meaning"></div></div><p id="show-fraction-name">Три четверти</p><p id="lab-core-note" class="visually-hidden"></p><div class="lab-nudge"><button data-lab-action="less" aria-label="Убрать одну долю">−</button><span>Одна доля меняет всё</span><button data-lab-action="more" aria-label="Добавить одну долю">+</button></div><div class="lab-refinement" hidden><button data-lab-action="refine" aria-pressed="false">✂ <span id="lab-refine-label"></span></button><span id="lab-equality" class="lab-equality"></span></div><p class="show-touch">Нажми на фигуру.<br><span>Смотри. Слушай. Исследуй.</span></p></section>
+  </div>
+  <section class="lab-axis"><div class="axis-heading"><span><i></i>Та же дробь. Другая перспектива.</span><small>Передвинь точку ↔</small></div><div class="lab-line-wrap"><div id="lab-line-segments" aria-hidden="true"></div><div id="lab-line-ticks" aria-hidden="true"></div><input id="lab-line" type="range" min="0" max="4" value="3" step="1" aria-label="Дробь на числовой прямой"><div class="lab-axis-labels" aria-hidden="true"></div></div><div class="axis-details"><p id="lab-interval-note"></p><p id="lab-comparison"></p></div></section>
+  <div class="lab-discovery"><span class="discovery-icon">${icon('spark')}</span><p><b id="lab-insight-title"></b><span id="lab-insight-detail"></span></p><span class="discovery-tag">ДРОБИ БЕЗ СКУКИ</span></div>
+ </main><footer class="show-footer"><span>Маленькие доли — большие открытия.</span><span>SMARTY KIDS <i>✦</i></span></footer><div class="show-demo-progress" aria-hidden="true"><span id="show-progress"></span></div><div id="lab-announcement" class="visually-hidden" role="status" aria-live="polite"></div>
+</div>`;}
+
+function animate(el,frames,options){if(!el||show.reduced)return null;return el.animate(frames,{duration:500,easing:'cubic-bezier(.16,1,.3,1)',...options});}
+function shapeCenter(){const r=document.getElementById('lab-active-model').getBoundingClientRect();return {x:r.x+r.width/2,y:r.y+r.height/2};}
+function sparkBurst(point=shapeCenter(),count=28,color=SHOW_COLORS[lab.figure]){
+ if(show.reduced)return;
+ const max=Math.min(count,180-show.particles.length);
+ for(let i=0;i<max;i++){const a=Math.random()*Math.PI*2,v=1+Math.random()*4;show.particles.push({x:point.x,y:point.y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-.6,life:1,size:1+Math.random()*3,color,star:i%5===0});}
+}
+function badge(text){const el=document.getElementById('show-badge');el.textContent=text;el.getAnimations().forEach(a=>a.cancel());animate(el,[{opacity:0,transform:'translate(-50%,12px) scale(.9)'},{opacity:1,transform:'translate(-50%,0) scale(1)',offset:.2},{opacity:1,transform:'translate(-50%,0) scale(1)',offset:.7},{opacity:0,transform:'translate(-50%,-16px) scale(.98)'}],{duration:1800,easing:'ease'});}
+
+// Tiny synthesized sounds keep this file self-contained; audio starts only on a gesture.
+function unlockAudio(){
+ if(!show.sound)return;
+ try{if(!show.audio){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;show.audio=new AC();show.master=show.audio.createGain();show.master.gain.value=.32;const limiter=show.audio.createDynamicsCompressor();show.master.connect(limiter);limiter.connect(show.audio.destination);}if(show.audio.state==='suspended')show.audio.resume().catch(()=>{});}catch{show.sound=false;syncSound();}
+}
+function note(frequency,delay=0,duration=.42,type='sine',volume=.16){
+ if(!show.sound||!show.audio||show.audio.state!=='running')return;
+ const ctx=show.audio,t=ctx.currentTime+delay,osc=ctx.createOscillator(),gain=ctx.createGain();osc.type=type;osc.frequency.setValueAtTime(frequency,t);gain.gain.setValueAtTime(0,t);gain.gain.linearRampToValueAtTime(volume,t+.014);gain.gain.exponentialRampToValueAtTime(.0001,t+duration);osc.connect(gain);gain.connect(show.master);osc.start(t);osc.stop(t+duration+.03);osc.onended=()=>{osc.disconnect();gain.disconnect();};
+}
+function chime(kind='tap'){
+ const scale=[261.63,293.66,329.63,392,440,523.25,587.33,659.25],base=scale[(lab.parts.size+lab.figure)%scale.length];
+ if(kind==='whole'){[523.25,659.25,783.99,1046.5].forEach((f,i)=>note(f,i*.07,.65,'sine',.11));}
+ else if(kind==='switch'){[base*.5,base,base*1.5].forEach((f,i)=>note(f,i*.05,.3,'triangle',.08));}
+ else if(kind==='divide'){[392,523.25].forEach((f,i)=>note(f,i*.035,.2,'triangle',.1));}
+ else note(base,0,.45,lab.figure===3?'triangle':'sine');
+}
+function syncSound(){const b=root.querySelector('[data-show="sound"]');b.innerHTML=icon(show.sound?'sound':'mute')+'<span>Звук</span>';b.setAttribute('aria-pressed',String(show.sound));b.setAttribute('aria-label',show.sound?'Выключить звук':'Включить звук');}
+function fractionName(){const n=lab.parts.size,d=lab.d;if(n===0)return 'Всё начинается с одной доли';if(n%d===0)return labWholeText(n/d);if(n>d)return 'Целые и ещё немного магии';const names={'1/2':'Одна вторая','1/3':'Одна треть','2/3':'Две трети','1/4':'Одна четверть','2/4':'Две четверти','3/4':'Три четверти'};return names[n+'/'+d]||`${n} из ${d} равных частей`;}
+function decorateShapes(){
+ document.querySelectorAll('#lab-active-model svg').forEach((svg,i)=>{
+  const color=SHOW_COLORS[lab.figure],id=`neon-${i}`;
+  const defs=document.createElementNS('http://www.w3.org/2000/svg','defs');defs.innerHTML=`<linearGradient id="${id}" x1="0" y1="0" x2=".8" y2="1"><stop offset="0%" stop-color="${color}"/><stop offset="100%" stop-color="${color}" stop-opacity=".72"/></linearGradient>`;svg.prepend(defs);svg.style.setProperty('--paint',`url(#${id})`);
+ });
+}
+function explodeParts(){
+ root.querySelectorAll('#lab-active-model .lab-hit').forEach(el=>{const b=el.getBBox(),cx=el.dataset.labModel==='strip'?300:90,cy=el.dataset.labModel==='strip'?30:90,dx=b.x+b.width/2-cx,dy=b.y+b.height/2-cy,length=Math.hypot(dx,dy)||1,distance=show.exploded?12:0;el.style.transform=`translate(${dx/length*distance}px,${dy/length*distance}px)`;});
+ root.querySelector('[data-show="explode"]').setAttribute('aria-pressed',String(show.exploded));root.querySelector('[data-show="explode"] span').textContent=show.exploded?'Собрать':'Разобрать';
+ document.getElementById('lab-current-figure').classList.toggle('is-exploded',show.exploded);
+}
+const showBaseMount=mountLab,showBaseUpdate=updateLab;
+updateLab=function(message){
+ const previous=show.value;showBaseUpdate(message);show.value=`${lab.parts.size}/${lab.d}`;
+ document.getElementById('show-fraction-name').textContent=fractionName();
+ if(show.ready&&previous!==show.value){animate(root.querySelector('.lab-number'),[{opacity:.45,transform:'translateY(10px) scale(.95)'},{opacity:1,transform:'none'}],{duration:380});
+  const complete=lab.parts.size>0&&lab.parts.size%lab.d===0;if(complete){sparkBurst(shapeCenter(),60);badge(labWholeText(lab.parts.size/lab.d)+'!');chime('whole');}else chime('tap');
+  const point=show.lastPoint||shapeCenter();sparkBurst(point,complete?12:18);show.lastPoint=null;
+ }
+};
+mountLab=function(){
+ const signature=[lab.figure,lab.d,lab.wholes].join('/'),changed=show.signature!==signature,oldFigure=show.signature.split('/')[0];
+ if(show.ready&&changed&&!show.reduced){const source=document.getElementById('lab-active-model'),box=source.getBoundingClientRect(),stage=root.querySelector('.lab-carousel-stage'),s=stage.getBoundingClientRect(),ghost=source.cloneNode(true);ghost.removeAttribute('id');ghost.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));ghost.querySelectorAll('[tabindex]').forEach(e=>e.removeAttribute('tabindex'));ghost.className='show-ghost';ghost.setAttribute('aria-hidden','true');ghost.style.cssText=`left:${box.left-s.left}px;top:${box.top-s.top}px;width:${box.width}px;height:${box.height}px;--lab-color:${SHOW_COLORS[Number(oldFigure)||0]};`;stage.append(ghost);const anim=animate(ghost,[{opacity:.45,transform:'none',filter:'blur(0px)'},{opacity:0,transform:'translateX(-90px) rotate(-18deg) scale(.65)',filter:'blur(12px)'}],{duration:350});anim.finished.finally(()=>ghost.remove());}
+ showBaseMount();show.signature=signature;document.documentElement.style.setProperty('--accent',SHOW_COLORS[lab.figure]);
+ root.querySelectorAll('[data-show-figure]').forEach(b=>b.setAttribute('aria-pressed',String(+b.dataset.showFigure===lab.figure)));
+ decorateShapes();explodeParts();
+ if(changed){const hits=[...root.querySelectorAll('#lab-active-model .lab-hit')];hits.forEach((el,i)=>{const angle=i*2.4;animate(el,[{opacity:0,transform:`translate(${Math.cos(angle)*70}px,${Math.sin(angle)*55}px) rotate(${i%2?25:-25}deg) scale(.55)`},{opacity:1,transform:el.style.transform}],{duration:650,delay:Math.min(i,12)*22});});if(show.ready){chime(oldFigure!==String(lab.figure)?'switch':'divide');sparkBurst(shapeCenter(),25);}}
+};
+
+function demoState(figure,d,wholes,n){lab.figure=figure;lab.d=d;lab.wholes=wholes;lab.parts=new Set(Array.from({length:n},(_,i)=>i));lab.refined=false;show.exploded=false;mountLab();}
+function stopDemo(){show.timers.forEach(clearTimeout);show.timers=[];show.playing=false;root.classList.remove('is-playing');document.getElementById('show-play-label').textContent='Включить магию';root.querySelector('[data-show="demo"]>svg').outerHTML=icon('play');document.getElementById('show-progress').style.width='0%';}
+function startDemo(){
+ stopDemo();show.playing=true;show.started=performance.now();show.sound=true;unlockAudio();if(show.master)show.master.gain.setTargetAtTime(.32,show.audio.currentTime,.025);syncSound();root.classList.add('is-playing');document.getElementById('show-play-label').textContent='Остановить шоу';root.querySelector('[data-show="demo"]>svg').outerHTML=icon('stop');
+ const steps=[
+ [0,()=>{demoState(0,1,1,1);badge('Всё начинается с целого');}],
+ [1800,()=>{demoState(0,2,1,1);badge('Делим. Открываем.');}],
+ [3400,()=>{show.exploded=true;explodeParts();chime('divide');}],
+ [4700,()=>{show.exploded=false;explodeParts();}],
+ [5500,()=>demoState(0,4,1,1)], [6500,()=>commitLab([0,1])], [7500,()=>commitLab([0,1,2])],
+ [9000,()=>{demoState(1,4,1,3);badge('Форма меняется. Дробь — нет.');}],
+ [11300,()=>demoState(2,4,1,3)], [13800,()=>demoState(3,4,1,3)],
+ [15300,()=>{lab.refined=true;updateLab();badge('Больше долей. Та же величина.');chime('divide');}],
+ [17800,()=>demoState(4,4,1,3)], [20200,()=>{demoState(0,4,1,3);changeLabWholes(1);badge('А если добавить целое?');}],
+ [22000,()=>{changeLabWholes(1);}], [22700,()=>changeLabWholes(1)],
+ [23400,()=>changeLabWholes(1)], [24100,()=>changeLabWholes(1)],
+ [24800,()=>changeLabWholes(1)], [25500,()=>changeLabWholes(1)], [26200,()=>{changeLabWholes(1);badge('Маленькие доли. Большие открытия.');}],
+ [28200,()=>{demoState(0,4,1,4);badge('Дроби. Теперь понятно.');}], [30500,()=>stopDemo()]
+ ];for(const [ms,fn] of steps)show.timers.push(setTimeout(fn,ms));
+}
+root.addEventListener('pointerdown',event=>{unlockAudio();if(event.target.closest('[data-lab-part]'))show.lastPoint={x:event.clientX,y:event.clientY};},true);
+root.addEventListener('click',event=>{if(event.target.closest('[data-lab-action],[data-show-figure],[data-show="explode"]')&&show.playing)stopDemo();},true);
+root.addEventListener('input',event=>{if(event.target.id==='lab-line'&&show.playing)stopDemo();},true);
+root.addEventListener('click',async event=>{
+ const fig=event.target.closest('[data-show-figure]');if(fig){lab.figure=+fig.dataset.showFigure;mountLab();return;}
+ const b=event.target.closest('[data-show]');if(!b)return;
+ switch(b.dataset.show){
+  case 'sound':show.sound=!show.sound;if(show.master)show.master.gain.setTargetAtTime(show.sound ? .32 : 0,show.audio.currentTime,.025);unlockAudio();syncSound();if(show.sound)chime();break;
+  case 'portrait':show.portrait=!show.portrait;document.body.classList.toggle('show-portrait',show.portrait);b.setAttribute('aria-pressed',String(show.portrait));break;
+  case 'fullscreen':try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{document.getElementById('lab-announcement').textContent='Полноэкранный режим недоступен в этом просмотрщике.';}break;
+  case 'demo':show.playing?stopDemo():startDemo();break;
+  case 'explode':show.exploded=!show.exploded;explodeParts();chime('divide');badge(show.exploded?'У каждой доли — своё место':'Снова одно целое');break;
+ }
+});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'){stopDemo();if(show.portrait){show.portrait=false;document.body.classList.remove('show-portrait');root.querySelector('[data-show="portrait"]').setAttribute('aria-pressed','false');}}});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){stopDemo();show.audio?.suspend();}else if(show.sound&&show.audio)show.audio.resume().catch(()=>{});});
+
+function startParticles(){
+ const canvas=document.getElementById('show-canvas'),ctx=canvas.getContext('2d');let w=0,h=0,last=0;
+ const stars=Array.from({length:34},(_,i)=>({x:Math.random(),y:Math.random(),size:i%5===0?1.5:.7,phase:Math.random()*6}));
+ function resize(){show.particles=[];w=innerWidth;h=innerHeight;const ratio=Math.min(devicePixelRatio||1,1.5);canvas.width=w*ratio;canvas.height=h*ratio;ctx.setTransform(ratio,0,0,ratio,0,0);}
+ addEventListener('resize',resize);resize();
+ function frame(t){const dt=Math.min((t-last)/16.67,2);last=t;ctx.clearRect(0,0,w,h);
+  if(!show.reduced){for(const star of stars){ctx.globalAlpha=.12+(.5+.5*Math.sin(t*.0004+star.phase))*.25;ctx.fillStyle='#cdd3f4';ctx.beginPath();ctx.arc(star.x*w,(star.y*h+t*.002*(star.size/2))%h,star.size,0,Math.PI*2);ctx.fill();}
+   for(const p of show.particles){p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=.025*dt;p.vx*=.98;p.life-=.016*dt;ctx.globalAlpha=Math.max(0,p.life);ctx.fillStyle=p.color;ctx.shadowColor=p.color;ctx.shadowBlur=10;ctx.beginPath();if(p.star){ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.life*2);ctx.rect(-p.size/2,-p.size*2,p.size,p.size*4);ctx.rect(-p.size*2,-p.size/2,p.size*4,p.size);ctx.fill();ctx.restore();}else{ctx.arc(p.x,p.y,p.size*Math.max(0,p.life),0,Math.PI*2);ctx.fill();}}
+   show.particles=show.particles.filter(p=>p.life>0);ctx.shadowBlur=0;ctx.globalAlpha=1;
+  }
+  if(show.playing)document.getElementById('show-progress').style.width=Math.min(100,(t-show.started)/305)+'%';requestAnimationFrame(frame);
+ }requestAnimationFrame(frame);
+}
+root.innerHTML=renderShow();mountLab();show.ready=true;syncSound();startParticles();
+</script>
+</body>
+</html>

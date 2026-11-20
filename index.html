@@ -11,6 +11,18 @@
 .brand-logo{display:block;width:clamp(220px,63vw,340px);height:auto;max-width:100%}.head{gap:12px}.logo{min-width:0;flex:1}.pill{flex-shrink:0}@media(max-width:430px){.pill{font-size:10px;padding:8px 10px}.brand-logo{width:min(66vw,290px)}}
 
 .ready-marker{display:inline-block;background:#e6faed;color:#146c36;border-radius:99px;padding:4px 9px;font-size:11px;font-weight:800;margin-top:2px}
+
+/* Compact layouts and safe long words */
+.name,.desc{overflow-wrap:anywhere;hyphens:auto}
+@media(max-width:600px){
+.wrap{padding:16px 12px max(36px,env(safe-area-inset-bottom))}
+.head{margin-bottom:18px}.hero{border-radius:22px;padding:24px 19px 27px}
+.hero h1{font-size:clamp(29px,8vw,41px);line-height:1.1}
+.games{gap:10px}.game{min-width:0;min-height:176px;padding:14px 12px;border-radius:19px}
+.game .icon{width:47px;height:47px;font-size:25px}.name{font-size:clamp(15px,4.2vw,19px);line-height:1.14}
+.desc{font-size:12px}.arrow{right:12px;top:13px}.wide{min-height:115px}
+.section{margin-top:24px}.section h2{font-size:21px}
+}
 </style>
 </head>
 <body>
@@ -48,5 +60,9 @@ for (const el of document.querySelectorAll('[data-file]')) {
 }
 document.getElementById('diagnostics').addEventListener('click',()=>{if(DIAGNOSTIC_URL)navigate(DIAGNOSTIC_URL);else message('Укажите адрес существующего диагностического теста в переменной DIAGNOSTIC_URL.');});
 </script>
-</body>
+<script>
+// Returning from a game must not restore a mid-page scroll position in Telegram.
+if('scrollRestoration' in history)history.scrollRestoration='manual';
+window.addEventListener('pageshow',()=>{if(!location.hash)window.scrollTo(0,0)});
+</script></body>
 </html>

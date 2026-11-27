@@ -7,14 +7,228 @@
 <!-- Весь логотип встроен в этот HTML. Все HTML-файлы разместите рядом с index.html в корне репозитория. -->
 <!-- Самодостаточное меню: внешний Telegram SDK не требуется для переходов между HTML-играми. -->
 <style>
-:root{--ink:#230b4c;--purple:#6535c4;--orange:#ff7417;--yellow:#ffe26a;--bg:#f7f4ff;--line:#e7dff5}*{box-sizing:border-box}body{margin:0;font-family:ui-rounded,'Arial Rounded MT Bold',system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--ink);background:var(--bg)}.wrap{max-width:800px;margin:auto;padding:24px 18px 55px}.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px}.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:24px;letter-spacing:-.7px}.cube{width:47px;height:47px;display:grid;place-items:center;background:var(--orange);color:white;border-radius:13px;transform:rotate(-8deg);font-weight:900}.sublogo{font-size:10px;font-weight:600;letter-spacing:.1px;display:block;color:#796d8e}.pill{font-size:12px;font-weight:800;color:var(--purple);background:#ede6ff;padding:10px 12px;border-radius:50px}.hero{position:relative;overflow:hidden;border-radius:28px;background:linear-gradient(120deg,#321064,#7543d2);color:white;padding:30px 24px 36px;box-shadow:0 16px 32px rgba(68,39,136,.16)}.hero:after{content:'×';font-size:200px;line-height:1;position:absolute;right:-8px;top:-49px;color:#ffffff14;transform:rotate(-16deg);pointer-events:none}.eyebrow{font-size:12px;letter-spacing:1.2px;font-weight:800;color:#f8cb72;text-transform:uppercase}h1{font-size:clamp(32px,7vw,51px);max-width:510px;line-height:1.04;letter-spacing:-1.5px;margin:13px 0}.hero p{max-width:440px;color:#e8ddff;line-height:1.5;margin-bottom:0;font-size:15px}.section{display:flex;justify-content:space-between;align-items:end;margin:31px 3px 15px}.section h2{font-size:22px;letter-spacing:-.6px;margin:0}.section span{font-size:12px;color:#897b9d}.games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.game{position:relative;text-align:left;background:white;border:1px solid var(--line);border-radius:23px;padding:20px;min-height:190px;cursor:pointer;box-shadow:0 7px 20px rgba(62,28,112,.055);transition:transform .15s,box-shadow .15s;display:flex;flex-direction:column;align-items:flex-start;gap:8px;color:inherit;font:inherit}.game:active{transform:scale(.98)}.game:hover{box-shadow:0 10px 25px rgba(62,28,112,.12)}.icon{width:55px;height:55px;border-radius:17px;display:grid;place-items:center;font-size:29px;font-weight:900;background:#f1e8ff;color:#6631cc}.game:nth-child(2) .icon{background:#fff3ce;color:#ad7100}.game:nth-child(3) .icon{background:#dff5f0;color:#138777}.game:nth-child(4) .icon{background:#ffe9dc;color:#d05b15}.game:nth-child(5) .icon{background:#e5eaff;color:#485dba}.name{font-size:18px;line-height:1.13;font-weight:900;letter-spacing:-.4px}.desc{font-size:12px;line-height:1.4;color:#756b86}.arrow{position:absolute;right:18px;top:19px;color:#9d8abc;font-size:22px}.wide{grid-column:1/-1;min-height:135px;flex-direction:row;align-items:center;padding:20px;gap:18px}.wide .icon{flex:0 0 55px}.diagnostic{margin-top:21px;border-radius:20px;padding:17px 19px;background:#fff8eb;border:1px solid #f8dbaf;display:flex;gap:13px;align-items:center}.diagnostic .info{flex:1}.diagnostic strong{display:block;font-size:15px}.diagnostic p{font-size:12px;margin:4px 0 0;color:#7c6d60}.diagnostic button{background:#ff7417;color:white;border:0;border-radius:12px;font-weight:800;padding:12px 15px;cursor:pointer}.foot{font-size:11px;text-align:center;color:#9b8fae;margin-top:24px;line-height:1.5}dialog{border:0;border-radius:24px;max-width:min(90vw,380px);padding:25px;color:var(--ink);box-shadow:0 24px 90px #130d3155}dialog::backdrop{background:#190d3d88}dialog h3{margin:0 0 8px}dialog p{line-height:1.5;color:#746981}dialog button{width:100%;background:var(--purple);color:white;font:inherit;font-weight:800;border:0;padding:14px;border-radius:12px}@media(max-width:380px){.games{gap:9px}.game{padding:15px;min-height:185px}.name{font-size:16px}.hero{padding:25px 19px}.pill{display:none}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
-.brand-logo{display:block;width:clamp(220px,63vw,340px);height:auto;max-width:100%}.head{gap:12px}.logo{min-width:0;flex:1}.pill{flex-shrink:0}@media(max-width:430px){.pill{font-size:10px;padding:8px 10px}.brand-logo{width:min(66vw,290px)}}
+:root{
+  --ink:#230b4c;--purple:#6535c4;--orange:#ff7417;
+  --yellow:#ffe26a;--bg:#f7f4ff;--line:#e7dff5
+}
 
-.ready-marker{display:inline-block;background:#e6faed;color:#146c36;border-radius:99px;padding:4px 9px;font-size:11px;font-weight:800;margin-top:2px}
+*{box-sizing:border-box;margin:0;padding:0}
 
-/* Новые карточки: только оформление добавленных игр. */
+html,body{
+  overflow-x:hidden;          /* ← ДОБАВЛЕНО: убирает горизонтальный скролл */
+  width:100%;
+  -webkit-text-size-adjust:100%; /* ← ДОБАВЛЕНО: предотвращает зум текста на iOS */
+}
+
+body{
+  font-family:ui-rounded,'Arial Rounded MT Bold',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color:var(--ink);
+  background:var(--bg);
+  min-height:100vh;
+  min-height:100dvh;           /* ← ДОБАВЛЕНО: корректная высота в мобильных браузерах */
+}
+
+.wrap{
+  max-width:800px;
+  margin:auto;
+  padding:24px 18px 55px;
+  padding-bottom:max(55px, env(safe-area-inset-bottom)); /* ← ДОБАВЛЕНО: safe-area для Mini App */
+}
+
+.head{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;gap:12px}
+
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:24px;letter-spacing:-.7px;min-width:0;flex:1}
+
+.cube{width:47px;height:47px;display:grid;place-items:center;background:var(--orange);color:white;border-radius:13px;transform:rotate(-8deg);font-weight:900}
+
+.sublogo{font-size:10px;font-weight:600;letter-spacing:.1px;display:block;color:#796d8e}
+
+.pill{
+  font-size:12px;font-weight:800;color:var(--purple);
+  background:#ede6ff;padding:10px 12px;border-radius:50px;
+  white-space:nowrap;            /* ← ДОБАВЛЕНО: текст не переносится */
+  flex-shrink:0;                 /* ← ДОБАВЛЕНО: не сжимается */
+}
+
+.hero{
+  position:relative;overflow:hidden;
+  border-radius:28px;
+  background:linear-gradient(120deg,#321064,#7543d2);
+  color:white;padding:30px 24px 36px;
+  box-shadow:0 16px 32px rgba(68,39,136,.16);
+}
+
+.hero:after{
+  content:'×';font-size:200px;line-height:1;
+  position:absolute;right:-8px;top:-49px;
+  color:#ffffff14;transform:rotate(-16deg);pointer-events:none;
+}
+
+.eyebrow{font-size:12px;letter-spacing:1.2px;font-weight:800;color:#f8cb72;text-transform:uppercase}
+
+h1{font-size:clamp(28px,7vw,51px);max-width:510px;line-height:1.04;letter-spacing:-1.5px;margin:13px 0}
+
+.herop{max-width:440px;color:#e8ddff;line-height:1.5;margin-bottom:0;font-size:15px}
+
+.section{display:flex;justify-content:space-between;align-items:end;margin:31px 3px 15px}
+.section h2{font-size:22px;letter-spacing:-.6px;margin:0}
+.section span{font-size:12px;color:#897b9d}
+
+.games{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px;
+}
+
+.game{
+  position:relative;text-align:left;
+  background:white;border:1px solid var(--line);
+  border-radius:23px;padding:20px;
+  min-height:190px;
+  cursor:pointer;
+  box-shadow:0 7px 20px rgba(62,28,112,.055);
+  transition:transform .15s,box-shadow .15s;
+  display:flex;flex-direction:column;align-items:flex-start;gap:8px;
+  color:inherit;font:inherit;
+  overflow:hidden;               /* ← ДОБАВЛЕНО: контент не вылезает */
+  word-break:break-word;         /* ← ДОБАВЛЕНО: длинные слова переносятся */
+}
+
+.game:active{transform:scale(.98)}
+.game:hover{box-shadow:0 10px 25px rgba(62,28,112,.12)}
+
+.icon{
+  width:55px;height:55px;border-radius:17px;
+  display:grid;place-items:center;
+  font-size:29px;font-weight:900;
+  background:#f1e8ff;color:#6631cc;
+  flex-shrink:0;                 /* ← ДОБАВЛЕНО */
+}
+
+.game:nth-child(2) .icon{background:#fff3ce;color:#ad7100}
+.game:nth-child(3) .icon{background:#dff5f0;color:#138777}
+.game:nth-child(4) .icon{background:#ffe9dc;color:#d05b15}
+.game:nth-child(5) .icon{background:#e5eaff;color:#485dba}
+
+.name{font-size:18px;line-height:1.13;font-weight:900;letter-spacing:-.4px}
+.desc{font-size:12px;line-height:1.4;color:#756b86}
+
+.arrow{
+  position:absolute;right:18px;top:19px;
+  color:#9d8abc;font-size:22px;
+  flex-shrink:0;                 /* ← ДОБАВЛЕНО */
+}
+
+.wide{
+  grid-column:1/-1;min-height:135px;
+  flex-direction:row;align-items:center;
+  padding:20px;gap:18px;
+}
+
+.wide .icon{flex:0 0 55px}       /* ← ИСПРАВЛЕНО: было flex:0055px (опечатка!) */
+
+.diagnostic{
+  margin-top:21px;border-radius:20px;
+  padding:17px 19px;background:#fff8eb;
+  border:1px solid #f8dbaf;
+  display:flex;gap:13px;align-items:center;
+}
+
+.diagnostic .info{flex:1}
+.diagnostic strong{display:block;font-size:15px}
+.diagnostic p{font-size:12px;margin:4px 0 0;color:#7c6d60}
+
+.diagnostic button{
+  background:#ff7417;color:white;border:0;
+  border-radius:12px;font-weight:800;
+  padding:12px 15px;cursor:pointer;
+  white-space:nowrap;            /* ← ДОБАВЛЕНО */
+  flex-shrink:0;                 /* ← ДОБАВЛЕНО */
+}
+
+.foot{font-size:11px;text-align:center;color:#9b8fae;margin-top:24px;line-height:1.5}
+
+dialog{
+  border:0;border-radius:24px;
+  max-width:min(90vw,380px);
+  padding:25px;color:var(--ink);
+  box-shadow:0 24px 90px #130d3155;
+}
+dialog::backdrop{background:#190d3d88}
+dialog h3{margin:0 0 8px}
+dialog p{line-height:1.5;color:#746981}
+dialog button{
+  width:100%;background:var(--purple);
+  color:white;font:inherit;font-weight:800;
+  border:0;padding:14px;border-radius:12px;
+}
+
+.brand-logo{display:block;width:clamp(220px,63vw,340px);height:auto;max-width:100%}
+
+.ready-marker{
+  display:inline-block;background:#e6faed;color:#146c36;
+  border-radius:99px;padding:4px 9px;
+  font-size:11px;font-weight:800;margin-top:2px;
+  white-space:nowrap;            /* ← ДОБАВЛЕНО */
+}
+
+/* Новые карточки */
 .game[data-file="ogorod-po-kletochkam.html"] .icon{background:#e8f5de;color:#568c27}
 .game[data-file="dom-strannyh-sosedey-telegram.html"] .icon{background:#fff0db;color:#b67837}
+
+/* ===== МОБИЛЬНЫЕ АДАПТАЦИИ ===== */
+
+/* Tablet / большой телефон */
+@media(max-width:600px){
+  .wrap{padding:16px 14px 40px}
+  .hero{padding:24px 18px 30px;border-radius:20px}
+  h1{font-size:clamp(26px,8vw,40px)}
+  .games{gap:10px}
+  .game{padding:16px;min-height:175px;border-radius:18px}
+  .name{font-size:16px}
+  .icon{width:48px;height:48px;font-size:24px;border-radius:14px}
+  .arrow{right:14px;top:15px;font-size:18px}
+}
+
+/* Маленький телефон (iPhone SE, старые Android) */
+@media(max-width:414px){
+  .wrap{padding:12px 10px 35px}
+  .head{margin-bottom:20px;gap:8px}
+  .pill{font-size:10px;padding:7px 9px}
+  .brand-logo{width:min(60vw,240px)}
+  .hero{padding:20px 14px 26px;border-radius:16px}
+  .hero:after{font-size:140px;right:-4px;top:-35px}
+  h1{font-size:26px;margin:10px 0}
+  .herop{font-size:14px}
+  .section{margin:22px 2px 12px}
+  .section h2{font-size:18px}
+  .games{gap:8px}
+  .game{
+    padding:13px;
+    min-height:auto;             /* ← ИСПРАВЛЕНО: авто-высота вместо фиксированной */
+    border-radius:15px;
+    gap:6px;
+  }
+  .name{font-size:15px}
+  .desc{font-size:11px}
+  .icon{width:42px;height:42px;font-size:20px;border-radius:12px}
+  .arrow{right:10px;top:12px;font-size:16px}
+  .wide{padding:14px;gap:12px;min-height:auto}
+  .wide .icon{flex:0 0 42px}
+  .diagnostic{padding:13px 14px;gap:10px;border-radius:15px}
+  .diagnostic button{padding:10px 12px;font-size:13px}
+}
+
+/* Очень маленький экран */
+@media(max-width:360px){
+  .games{grid-template-columns:1fr}  /* ← ДОБАВЛЕНО: одна колонка на совсем узких */
+  .game{min-height:auto}
+  .wide{flex-direction:column;text-align:center;align-items:flex-start}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important}
+}
 </style>
 </head>
 <body>
